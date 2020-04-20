@@ -41,7 +41,7 @@ function getProductDetails() {
     let params = new URLSearchParams(location.search);
     var index = params.get('ind');
     var productArr = JSON.parse(sessionStorage.getItem('allItemArr'))[index];
-    $("#imageDiv").append('<img src="images/' + productArr[5] + '" width=90% style="margin-top:20px;">');
+    $("#imageDiv").append('<img src="images/' + productArr[5] + '" style="max-width:90%; max-height:500px; margin-top:20px;">');
     $("#nameDiv").append(productArr[1]);
     $("#descriptionDiv").append(productArr[2]);
     $("#priceDiv").append("$" + new Number(productArr[3]).toFixed(2) + " each");

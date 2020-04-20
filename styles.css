@@ -57,6 +57,9 @@
  li:first-child:nth-last-child(6), li:first-child:nth-last-child(6) ~ li {
      width: 16.6667%;
 }
+ li:first-child:nth-last-child(7), li:first-child:nth-last-child(7) ~ li {
+     width: 14.28%;
+}
  .column {
      float: left;
      width: 31%;
