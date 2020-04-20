@@ -1,0 +1,123 @@
+ .header {
+     padding: 60px;
+     text-align: center;
+     background: #1abc9c;
+     color: white;
+     font-size: 30px;
+}
+ #logoutBtn {
+     margin-top: 8px;
+     margin-right: 8px;
+     position: absolute;
+     top: 0;
+     right: 0;
+}
+ #username {
+     margin-top: 8px;
+     margin-left: 8px;
+     position: absolute;
+     top: 0;
+     left: 0;
+     color: #4c4c4c;
+}
+ a:link, a:visited {
+     color: #4c4c4c;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+}
+ a:hover, a:active {
+     background-color: white;
+}
+ #navBar {
+     width: 100%;
+}
+ #navBar ul {
+     list-style: none;
+}
+ #navBar li {
+     float: left;
+}
+ #navBar li a {
+     display: block;
+     text-decoration: none;
+     font-family: "Arial";
+     color: #4c4c4c;
+     border-right: 1px solid #4c4c4c;
+}
+ #navBar li:first-child a {
+     border-left: 1px solid #4c4c4c;
+}
+ li:first-child:nth-last-child(4), li:first-child:nth-last-child(4) ~ li {
+     width: 25%;
+}
+ li:first-child:nth-last-child(5), li:first-child:nth-last-child(5) ~ li {
+     width: 20%;
+}
+ li:first-child:nth-last-child(6), li:first-child:nth-last-child(6) ~ li {
+     width: 16.6667%;
+}
+ .column {
+     float: left;
+     width: 31%;
+     padding: 10px;
+     background-color:darkgray;
+     text-align:center;
+     border: solid #333333 1px;
+     height: 450px;
+}
+ .row img {
+     max-width: 70% ;
+     max-height: 375px;
+}
+ .columnCart {
+     float: left;
+     width: 31%;
+     padding: 10px;
+     background-color:darkgray;
+     text-align:center;
+     border: solid #333333 1px;
+     height: 450px;
+}
+ .column:hover {
+     background-color:gray;
+}
+ .row:after {
+     content: "";
+     display: table;
+     clear: both;
+}
+ .left {
+     width: 50%;
+     float: left;
+     height: 300px;
+}
+ .right {
+     width: 50%;
+     float: right;
+     height: 300px;
+}
+ .dropdown {
+     overflow: hidden;
+}
+ .dropdown .dropbtn {
+     cursor: pointer;
+     font-size: 16px;
+     border: none;
+     outline: none;
+     color: black;
+     padding: 14px 16px;
+     background-color: #ddd;
+     font-family: inherit;
+     margin: 0;
+}
+ .dropdown-content {
+     display: none;
+     min-width: 160px;
+}
+ .show {
+     display: block;
+}
+ .dropbtn:hover {
+     background-color: #ccc;
+}
