@@ -22,15 +22,15 @@ function addToCart(quantity) {
     var cartArr = JSON.parse(sessionStorage.getItem('cartArr'));
     let params = new URLSearchParams(location.search);
     var index = params.get('ind');
-    var b = true;
+    var isNewItem = true;
     for (var i = 0; i < cartArr.length; i++) {
         if (cartArr[i][0] == index) {
             cartArr[i][1] = new Number(cartArr[i][1]) + new Number(quantity);
             sessionStorage.setItem('cartArr', JSON.stringify(cartArr));
-            b = false;
+            isNewItem = false;
         }
     }
-    if (b) {
+    if (isNewItem) {
         cartArr.push([index, quantity]);
         sessionStorage.setItem('cartArr', JSON.stringify(cartArr));
     }
