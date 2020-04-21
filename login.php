@@ -3,6 +3,7 @@
 
 <head>
     <title>Login</title>
+    <script type="text/javascript" src="jsfunc.js"></script>
     <style>
         .content {
             position: fixed;
@@ -38,7 +39,7 @@
             <input id="submitBtn" type="submit" value="Submit">
         </div>
     </form>
-    <?php
+<?php
 
 session_start();
 
@@ -49,48 +50,50 @@ if(isset($_SESSION["in"]) && $_SESSION["in"] === true){
 
 require_once "db_config.php";
 
-$conn = mysqli_connect(server, user, pass, name);
+$conn = new PDO("mysql:host=". server. ";dbname=". name, user, pass);
 
 if($conn === false){
     die("ERROR: Could not connect. " . mysqli_connect_error());
 }
 
 if(!empty(trim($_POST["user"])) && !empty(trim($_POST["pass"]))){
+
 $user = $_POST["user"];
 $pass = $_POST["pass"];
 
-$sql = "SELECT id, username, password, type FROM login WHERE username = '". $user. "'";
+$sql = "SELECT id, username, password, type FROM login WHERE username = :user";
+$stmt = $conn->prepare($sql);
+$stmt->bindParam(':user', $_POST["user"], PDO::PARAM_STR);
+$stmt->execute();
+$stmt->setFetchMode(PDO::FETCH_ASSOC);
+$stmt = $stmt->fetchAll()[0];
 
-$result = $conn->query($sql);
+		if(password_verify($pass, $stmt["password"])){
 
-if ($result->num_rows > 0) {
+			session_start();
 
-    while($row = $result->fetch_assoc()) {
-
-				if(password_verify($pass, $row["password"])){
-
-				session_start();
-
-				if($row["type"] == "WORKER"){
-					$sql = "SELECT name FROM worker WHERE login_id = ". $row["id"];
-				}else{
-					$sql = "SELECT name FROM customer WHERE login_id = ". $row["id"];
-				}
-
-				$name = $conn->query($sql)->fetch_assoc();
-
-				$_SESSION["in"] = true;
-				$_SESSION["id"] = $row["id"];
-				$_SESSION["name"] = $name["name"];
-				$_SESSION["type"] = $row["type"];
-
-				header("location: index.php");
-				} else {
-					echo "Wrong username or password";
-				}
+			if($stmt["type"] == "WORKER"){
+				$sql = "SELECT name FROM worker WHERE login_id = :id";
+			}else{
+				$sql = "SELECT name FROM customer WHERE login_id = :id";
 			}
-		} 
 
+			$stmt2 = $conn->prepare($sql);
+			$stmt2->bindParam(':id', $stmt["id"]);
+			$stmt2->execute();
+			$stmt2->setFetchMode(PDO::FETCH_ASSOC);
+			$name = $stmt2->fetchColumn();
+
+			$_SESSION["in"] = true;
+			$_SESSION["id"] = $stmt["id"];
+			$_SESSION["name"] = $name;
+			$_SESSION["type"] = $stmt["type"];
+
+			header("location: index.php");
+		} else {
+				echo "Wrong username or password";
+		}
+	
 }
 ?>
 

@@ -133,7 +133,6 @@ function dropFunc(i) {
 function getHistory() {
     $.post("getOrders.php", function(ordersData, status) {
         var orders = JSON.parse(ordersData);
-
         for (var i = 0; i < orders.length; i++) {
             $("#historyContent").append('<div class="dropdown"><button class="dropbtn" onclick="dropFunc(' + i + ')" id="dropbutton">Order #' + orders[i] + ' <i class="fa fa-caret-down"></i></button></div><div class="dropdown-content" id="dropDiv' + i + '"></div>');
             $.when(addHistoryItems(orders[i], i));
@@ -146,7 +145,6 @@ function addHistoryItems(order_id, i) {
         'order_id': order_id
     }, function(itemData, status) {
         var orderItems = JSON.parse(itemData);
-        console.log(itemData);
         for (var j = 0; j < orderItems.length; j++) {
             console.log(j + " " + orderItems[j][0]);
             $("#dropDiv" + i).append('<div>Name: ' + orderItems[j][0] + ' Quantity: ' + orderItems[j][1] + '</div>');

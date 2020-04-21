@@ -16,11 +16,11 @@
 
 <body>
 
-    <?php
+<?php
 
 require_once "db_config.php";
 
-$conn = mysqli_connect(server, user, pass, name);
+$conn = new PDO("mysql:host=". server. ";dbname=". name, user, pass);
 
 if($conn === false){
     die("ERROR: Could not connect. " . mysqli_connect_error());
@@ -30,10 +30,15 @@ $user = "";
 $check = 0;
 
 if(!empty(trim($_POST["user"]))){
-	$sql = "SELECT id FROM login WHERE username = '". $_POST["user"]. "'";
-
-		$result = $conn->query($sql);
-				if ($result->num_rows > 0) {
+	$sql = "SELECT count(id) FROM login WHERE username = :user";
+	$stmt = $conn->prepare($sql);
+	$stmt->bindParam(':user', $_POST["user"], PDO::PARAM_STR);
+	$stmt->execute();
+	$stmt->setFetchMode(PDO::FETCH_ASSOC);
+		
+	$numberOfRows = $stmt->fetchColumn();
+	
+				if ($numberOfRows > 0) {
                     echo "This username is already taken.";
                 } else{
                     $user = trim($_POST["user"]);
@@ -42,25 +47,27 @@ if(!empty(trim($_POST["user"]))){
 }
 
 if($check == 1){
-if(!empty(trim($_POST["pass"]))){
-            $param_user = $user;
+	if(!empty(trim($_POST["pass"]))){
             $param_pass = password_hash($_POST["pass"], PASSWORD_DEFAULT);
 
-            $sql = "INSERT INTO login (username, password, type) VALUES ('". $param_user. "', '". $param_pass. "', 'CUSTOMER')";
+            $sql = "INSERT INTO login (username, password, type) VALUES (:user, :pass, 'CUSTOMER')";
 
-            $result = $conn->query($sql);
+    		$stmt = $conn->prepare($sql);
+			$stmt->bindParam(':user', $user, PDO::PARAM_STR);
+			$stmt->bindParam(':pass', $param_pass, PDO::PARAM_STR);
+			$stmt->execute();
 
-            $sql = "INSERT INTO customer(name, login_id) VALUES ('". $_POST["name"]. "', (SELECT id FROM login WHERE username = '". $param_user. "'))";
+            $sql = "INSERT INTO customer(name, login_id) VALUES (:name, (SELECT id FROM login WHERE username = :user))";
 
-            $result = $conn->query($sql);
+            $stmt = $conn->prepare($sql);
+			$stmt->bindParam(':name', $_POST["name"], PDO::PARAM_STR);
+			$stmt->bindParam(':user', $user, PDO::PARAM_STR);
+			$stmt->execute();
 
-            if($result){
-                header("location: login.php");
-            }
-
+            
+        	header("location: login.php");
         }
     }
-$conn->close();
 unset($_POST);
 ?>
 
