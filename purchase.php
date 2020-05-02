@@ -16,7 +16,7 @@ if($conn === false){
     die("ERROR: Could not connect. " . mysqli_connect_error());
 }
 
-$sql = "INSERT INTO history_customers VALUES(:id, 0)";
+$sql = "INSERT INTO history_customers VALUES(:id, 0, NOW())";
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':id', $_SESSION["id"]);
 $stmt->execute();
@@ -42,10 +42,10 @@ foreach($cart as $item){
 	$stmt->bindParam(':id', $item[0]);
 	$stmt->execute();
 	
-	$sql = "INSERT INTO history_items values(:stock, :order, :quantity)";
+	$sql = "INSERT INTO history_items values(:id, :order, :quantity)";
 	$stmt = $conn->prepare($sql);
 	$stmt->bindParam(':order', $order);
-	$stmt->bindParam(':stock', $stock);
+	$stmt->bindParam(':id', $item[0]);
 	$stmt->bindParam(':quantity', $item[1]);
 	$stmt->execute();
 }

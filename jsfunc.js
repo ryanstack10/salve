@@ -136,6 +136,7 @@ function getHistory() {
         for (var i = 0; i < orders.length; i++) {
             $("#historyContent").append('<div class="dropdown"><button class="dropbtn" onclick="dropFunc(' + i + ')" id="dropbutton">Order #' + orders[i] + ' <i class="fa fa-caret-down"></i></button></div><div class="dropdown-content" id="dropDiv' + i + '"></div>');
             $.when(addHistoryItems(orders[i], i));
+            console.log(orders[i]);
         }
     });
 }
@@ -146,7 +147,7 @@ function addHistoryItems(order_id, i) {
     }, function(itemData, status) {
         var orderItems = JSON.parse(itemData);
         for (var j = 0; j < orderItems.length; j++) {
-            console.log(j + " " + orderItems[j][0]);
+            console.log(orderItems);
             $("#dropDiv" + i).append('<div>Name: ' + orderItems[j][0] + ' Quantity: ' + orderItems[j][1] + '</div>');
         }
     });

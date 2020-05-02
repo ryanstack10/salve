@@ -7,6 +7,31 @@
         <script type="text/javascript" src="jsfunc.js"></script>
         <link rel="stylesheet" type="text/css" href="styles.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
+        <script>
+        	$(document).ready(function() {
+                $.post("getNoShirt.php", function(nameData, status) {
+                	var names = JSON.parse(nameData);
+                	for( var i = 0; i < names.length; i++){
+                		$("#noShirtDiv").append('<div style="margin-left: 2em;">' + names[i] + '</div>');
+                	}
+        		});
+        		
+        		$.post("getNoMoreThanTwo.php", function(nameData, status) {
+                	var names = JSON.parse(nameData);
+                	for( var i = 0; i < names.length; i++){
+                		$("#noMoreThanTwoDiv").append('<div style="margin-left: 2em;">' + names[i] + '</div>');
+                	}
+        		});
+        		
+        		$.post("getMostCommonItems.php", function(nameData, status) {
+                	var names = JSON.parse(nameData);
+                	for( var i = 0; i < names.length; i++){
+                		$("#mostCommonItemsDiv").append('<div style="margin-left: 2em;">' + names[i] + '</div>');
+                	}
+        		});
+            });
+        </script>
 
     </head>
 
@@ -36,9 +61,20 @@
                         </div>
         </div>
         <div class="content">
-		<p>
-			Welcome to Salve! The online store that will satisfy all your clothing needs during these trying times. Salve means "cheers in Italian, and we certainly hope we can lift your spirits.
-		</p>
+        	<div id="noShirtDiv">
+        		<div>All customers who never order shirts</div>
+        		<div>Customer name:</div>
+        	</div>
+        	<br>
+            <div id="noMoreThanTwoDiv">
+        		<div>All customers who never order more than two distinct items</div>
+        		<div>Customer name:</div>
+        	</div>
+        	<br>
+        	<div id="mostCommonItemsDiv">
+        		<div>Most commonly purchased items</div>
+        		<div>Item name:</div>
+        	</div>
         </div>
         <div class="footer">
         </div>

@@ -28,8 +28,9 @@
                                 <li><a href="cart.php">Cart</a></li>
                                 <?php if($_SESSION["type"] == "WORKER" && $_SESSION["in"]) {?>
                                     <li><a href="add.php">Add Item</a></li>
+                                    <li><a href="stats.php">Stats</a></li>
                                     <?php } if ($_SESSION["in"]){?>
-                                        <li><a href="history.php">Order History</a></li>
+                                        <li><a href="history.php">History</a></li>
                                         <?php } ?>
                             </ul>
                         </div>
